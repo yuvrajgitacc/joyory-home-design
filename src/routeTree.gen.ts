@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OptimizeSkinRouteImport } from './routes/optimize-skin'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OptimizeSkinRoute = OptimizeSkinRouteImport.update({
+  id: '/optimize-skin',
+  path: '/optimize-skin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/optimize-skin': typeof OptimizeSkinRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/optimize-skin': typeof OptimizeSkinRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/optimize-skin': typeof OptimizeSkinRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/optimize-skin'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/optimize-skin'
+  id: '__root__' | '/' | '/optimize-skin'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  OptimizeSkinRoute: typeof OptimizeSkinRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/optimize-skin': {
+      id: '/optimize-skin'
+      path: '/optimize-skin'
+      fullPath: '/optimize-skin'
+      preLoaderRoute: typeof OptimizeSkinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  OptimizeSkinRoute: OptimizeSkinRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
